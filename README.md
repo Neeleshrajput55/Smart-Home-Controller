@@ -12,7 +12,7 @@ This system allows you to control up to four home appliances (e.g., lights, fans
 - Uses ESP8266 for Wi-Fi connectivity and relay control, eliminating the need for an Arduino.
 
 ## Hardware Requirements
-- **ESP8266 Module**: NodeMCU (recommended) or ESP-01
+- **ESP8266 Module**: NodeMCU (recommended:ESP8266 NodeMCU CP2102 Board) or ESP-01
 - **Relay Module**: 4-channel, 5V, active-low relay module
 - **Home Appliances**: Low-power devices (e.g., LED lights, small fans) for testing
 - **Jumper Wires**: For connecting components

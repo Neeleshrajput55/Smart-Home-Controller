@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home Appliance Control</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    h1 { color: #333; }
+    .button { padding: 10px 20px; margin: 5px; font-size: 16px; cursor: pointer; }
+    .on { background-color: #4CAF50; color: white; }
+    .off { background-color: #f44336; color: white; }
+  </style>
+</head>
+<body>
+  <h1>Home Appliance Control (Worldwide)</h1>
+  <div>
+    <button class="button on" onclick="sendCommand('1ON')">Relay 1 ON</button>
+    <button class="button off" onclick="sendCommand('1OFF')">Relay 1 OFF</button>
+  </div>
+  <div>
+    <button class="button on" onclick="sendCommand('2ON')">Relay 2 ON</button>
+    <button class="button off" onclick="sendCommand('2OFF')">Relay 2 OFF</button>
+  </div>
+  <div>
+    <button class="button on" onclick="sendCommand('3ON')">Relay 3 ON</button>
+    <button class="button off" onclick="sendCommand('3OFF')">Relay 3 OFF</button>
+  </div>
+  <div>
+    <button class="button on" onclick="sendCommand('4ON')">Relay 4 ON</button>
+    <button class="button off" onclick="sendCommand('4OFF')">Relay 4 OFF</button>
+  </div>
+
+  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+  <script>
+    // Initialize Pusher
+    const pusher = new Pusher('c2fb34fa880960a9e301', {  // Your Pusher Key
+      cluster: 'ap2'  // Your cluster (Asia Pacific, Mumbai)
+    });
+
+    const channel = pusher.subscribe('home-control');
+
+    channel.bind('control-event', function(data) {
+      console.log('Received from ESP8266:', data);
+    });
+
+    function sendCommand(cmd) {
+      fetch('https://api.pusher.com/apps/1946828/events', {  // Your Pusher App ID
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer 14edbc135cc73dae09ea'  // Your Pusher Secret
+        },
+        body: JSON.stringify({
+          name: 'control-event',
+          channel: 'home-control',
+          data: cmd
+        })
+      })
+      .then(response => console.log('Sent:', cmd))
+      .catch(error => console.error('Error:', error));
+    }
+  </script>
+</body>
+</html>
